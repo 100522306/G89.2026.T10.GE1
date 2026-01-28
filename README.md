@@ -1,1 +1,2 @@
-# G89.2026.T10.GE1
+# G8X.2026.EG1.T00
+Guided exercise 1 codebase.
