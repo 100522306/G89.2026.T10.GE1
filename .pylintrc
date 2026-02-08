@@ -1,0 +1,18 @@
+[MESSAGES CONTROL]
+# C0121: singleton-comparison
+# C0411: wrong-import-order
+# R1705: no-else-return
+# C0325: superfluous-parens
+# W0613: unused-argument
+# W0511: fixme (TODOs)
+disable=
+    singleton-comparison,
+    wrong-import-order,
+    no-else-return,
+    superfluous-parens,
+    unused-argument,
+    fixme
+
+[DESIGN]
+# R0914: Subir variables locales a 25
+max-locals=25
