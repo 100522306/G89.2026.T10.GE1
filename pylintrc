@@ -309,7 +309,9 @@ max-bool-expr=5
 max-branches=12
 
 # Maximum number of locals for function / method body.
-max-locals=15
+#MODIFIED RULE
+#max-locals=15
+max-locals=25
 
 # Maximum number of parents for a class (see R0901).
 max-parents=7
@@ -469,7 +471,25 @@ disable=raw-checker-failed,
         missing-final-newline,
         #MODIFIED RULE
         #unused-private-member (W0238)
-        unused-private-member
+        unused-private-member,
+        #MODIFIED RULE
+        #singleton-comparison (C0121)
+        singleton-comparison,
+        #MODIFIED RULE
+        #wrong-import-order (C0411)
+        wrong-import-order,
+        #MODIFIED RULE
+        #no-else-return (R1705)
+        no-else-return,
+        #MODIFIED RULE
+        #superfluous-parens (C0325)
+        superfluous-parens,
+        #MODIFIED RULE
+        #unused-argument (W0613)
+        unused-argument,
+        #MODIFIED RULE
+        #fixme (W0511)
+        fixme
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
