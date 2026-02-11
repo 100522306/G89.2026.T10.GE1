@@ -3,6 +3,21 @@ from .EnterpriseManagementException import EnterpriseManagementException
 from .EnterpriseRequest import EnterpriseRequest
 
 class EnterpriseManager:
+    control_character_group1 = ["A", "B", "E", "H"]
+    control_character_group2 = ["K", "P", "Q", "S"]
+    group2_index = {
+        0: "J",
+        1: "A",
+        2: "B",
+        3: "C",
+        4: "D",
+        5: "E",
+        6: "F",
+        7: "G",
+        8: "H",
+        9: "I"
+    }
+
     def __init__(self):
         pass
 
@@ -13,17 +28,23 @@ class EnterpriseManager:
             return False
 
         # Extract the central numeric block (7 digits)
-        digits_block = cif[1:8]
+        digits_string = cif[1:8]
+        letter = cif[0]
+        control_character = cif[8]
 
-        if not digits_block.isdigit():
-            return False
+        # Cast the digit string to integers
+        try:
+            digits_block = list(map(int, digits_string))
+        except Exception as e:
+            raise EnterpriseManagementException("Invalid CIF - String Decoding Error") from e
+
 
         # ALGORITHM IMPLEMENTATION
         sum_even = 0
         sum_odd = 0
 
         for i in range(7):
-            digit = int(digits_block[i])
+            digit = digits_block[i]
 
             # Position logic (1-based index):
             # Even positions (2nd, 4th, 6th) -> Indices 1, 3, 5
@@ -38,8 +59,7 @@ class EnterpriseManager:
         unit_digit = total_sum % 10
         base_digit = (10 - unit_digit) % 10
 
-        # We return the calculation to fix 'unused-variable' error
-        return base_digit >= 0
+        return self.is_correct_control_character(letter, base_digit, control_character)
 
     def read_product_code_from_json(self, file_path):
         try:
@@ -61,3 +81,20 @@ class EnterpriseManager:
         if not self.validate_cif(cif):
             raise EnterpriseManagementException("Invalid CIF")
         return req
+
+    def is_correct_control_character(self, letter, base_digit, control_character) -> bool:
+        if letter in self.control_character_group1:
+            try:
+                control_number = int(control_character)
+            except ValueError as e:
+                raise EnterpriseManagementException("Invalid CIF - Invalid Control Character") from e
+            return control_number == base_digit
+
+        elif letter in self.control_character_group2:
+            try:
+                expected_control_character = self.group2_index.get(base_digit)
+            except KeyError as e:
+                raise EnterpriseManagementException("Invalid CIF - Control Character Not Found") from e
+            return control_character == expected_control_character
+
+        raise EnterpriseManagementException("Invalid CIF - Letter Not Found")
