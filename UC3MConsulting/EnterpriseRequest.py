@@ -6,7 +6,7 @@ class EnterpriseRequest:
         self.__name = name
         self.__cif = cif
         self.__phone = phone
-        just_now = datetime.utcnow()
+        just_now = datetime.now()
         self.__time_stamp = datetime.timestamp(just_now)
 
     def __str__(self):
